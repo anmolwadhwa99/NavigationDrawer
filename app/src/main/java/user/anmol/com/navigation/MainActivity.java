@@ -1,5 +1,7 @@
 package user.anmol.com.navigation;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,11 +12,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private EditText recipientEditText;
     private EditText subjectEditText;
     private EditText bodyEditText;
+    private boolean isEmailCorrect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         recipientEditText = (EditText) findViewById(R.id.recipient_id);
         subjectEditText = (EditText) findViewById(R.id.subject_id);
         bodyEditText = (EditText) findViewById(R.id.body_id);
+
+
+
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -60,11 +68,39 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean isValidEmail(CharSequence target){
+    private void isValidEmail(CharSequence target){
         if(target == null){
-            return false;
+            isEmailCorrect = false;
+            Toast.makeText(MainActivity.this, "The email address is invalid", Toast.LENGTH_SHORT).show();
         }else{
-            return Patterns.EMAIL_ADDRESS.matcher(target).matches();
+            if(Patterns.EMAIL_ADDRESS.matcher(target).matches() == false){
+                isEmailCorrect = false;
+                Toast.makeText(MainActivity.this, "The email address is invalid", Toast.LENGTH_SHORT).show();
+            }else{
+                isEmailCorrect = true;
+            }
+        }
+    }
+
+    protected void sendEmail() {
+
+        String[] TO = {""};
+        String[] CC = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+        }
+        catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
         }
     }
 }
