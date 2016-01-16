@@ -13,12 +13,14 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/recipient_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/recipient_hint"
         android:inputType="textEmailAddress" />
 
     <EditText
+        android:id="@+id/subject_id"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,6 +28,7 @@
         android:inputType="textEmailSubject" />
 
     <EditText
+        android:id="@+id/body_id"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
