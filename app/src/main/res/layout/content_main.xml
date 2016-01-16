@@ -17,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/recipient_hint"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:maxLength="200"/>
 
     <EditText
         android:id="@+id/subject_id"
@@ -25,7 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/subject_hint"
-        android:inputType="textEmailSubject" />
+        android:inputType="textEmailSubject"
+        android:maxLength="1000"/>
 
     <EditText
         android:id="@+id/body_id"
