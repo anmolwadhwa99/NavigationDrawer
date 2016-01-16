@@ -5,11 +5,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+    private EditText recipientEditText;
+    private EditText subjectEditText;
+    private EditText bodyEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        recipientEditText = (EditText) findViewById(R.id.recipient_id);
+        subjectEditText = (EditText) findViewById(R.id.subject_id);
+        bodyEditText = (EditText) findViewById(R.id.body_id);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,5 +58,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isValidEmail(CharSequence target){
+        if(target == null){
+            return false;
+        }else{
+            return Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 }
