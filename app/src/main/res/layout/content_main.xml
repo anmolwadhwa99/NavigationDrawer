@@ -15,10 +15,20 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/recipient_hint" />
+        android:hint="@string/recipient_hint"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="@string/subject_hint"
+        android:inputType="textEmailSubject" />
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/body_hint"
+        android:inputType="textEmailSubject" />
 </LinearLayout>

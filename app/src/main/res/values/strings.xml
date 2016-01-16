@@ -3,5 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="welcome_message">Welcome to Navigation!</string>
     <string name="recipient_hint">Enter in the recipient</string>
-
+    <string name="subject_hint">Please enter in the subject</string>
+    <string name="body_hint">Please enter in the email body</string>
 </resources>
