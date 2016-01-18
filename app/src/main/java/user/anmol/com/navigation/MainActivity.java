@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText subjectEditText;
     private EditText bodyEditText;
     private boolean isEmailCorrect;
+    private View parentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +31,16 @@ public class MainActivity extends AppCompatActivity {
         recipientEditText = (EditText) findViewById(R.id.recipient_id);
         subjectEditText = (EditText) findViewById(R.id.subject_id);
         bodyEditText = (EditText) findViewById(R.id.body_id);
-
-
-
-
-
+        parentView =  findViewById(R.id.root_view);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                isValidEmail();
+                if (isEmailCorrect == true) {
+                    sendEmail();
+                }
             }
         });
     }
@@ -68,32 +67,40 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void isValidEmail(CharSequence target){
-        if(target == null){
+    private void isValidEmail(){
+        Snackbar snackbar = Snackbar.make(parentView,"Please enter in a valid email address",Snackbar.LENGTH_LONG);
+        Snackbar snackbar2 = Snackbar.make(parentView, "Please enter something in the body", Snackbar.LENGTH_LONG);
+        Snackbar snackbar3 = Snackbar.make(parentView, "Please enter something in the subject", Snackbar.LENGTH_LONG);
+        if(recipientEditText.getText().toString().isEmpty()){
             isEmailCorrect = false;
-            Toast.makeText(MainActivity.this, "The email address is invalid", Toast.LENGTH_SHORT).show();
+            snackbar.show();
         }else{
-            if(Patterns.EMAIL_ADDRESS.matcher(target).matches() == false){
+            if(Patterns.EMAIL_ADDRESS.matcher(recipientEditText.getText().toString()).matches() == false){
                 isEmailCorrect = false;
-                Toast.makeText(MainActivity.this, "The email address is invalid", Toast.LENGTH_SHORT).show();
+                snackbar.show();
             }else{
                 isEmailCorrect = true;
             }
+        }
+        if(bodyEditText.getText().toString().isEmpty()){
+            snackbar2.show();
+            isEmailCorrect = false;
+        }
+        if(subjectEditText.getText().toString().isEmpty()){
+            snackbar3.show();
+            isEmailCorrect = false;
         }
     }
 
     protected void sendEmail() {
 
-        String[] TO = {""};
-        String[] CC = {""};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_CC, CC);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{recipientEditText.getText().toString()});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectEditText.getText().toString());
+        emailIntent.putExtra(Intent.EXTRA_TEXT, bodyEditText.getText().toString());
 
         try {
             startActivity(Intent.createChooser(emailIntent, "Send mail..."));
